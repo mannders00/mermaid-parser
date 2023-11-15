@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Template</title>
+	<title>Mermaid To Terraform</title>
 	<link href="/public/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -22,20 +22,29 @@
 
 				<div
 					class="col-sm m-2 p-2 shadow-lg border rounded bg-body align-content-center justify-content-center">
-					<form hx-post="/submit" hx-target="#result">
+					<form hx-post="/submit" hx-target="#result" hx-indicator="#indicator">
 						<textarea class="w-100 h-100" id="mermaid-input" name="mermaid-input" style="min-height: 10rem">
 						</textarea>
 						<button type="submit" class="btn btn-outline-primary"> Submit </button>
 					</form>
+					<div id="indicator" class="htmx-indicator spinner-border text-primary" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
 				</div>
 				<div
 					class="col-sm m-2 p-2 shadow-lg border rounded bg-body align-content-center justify-content-center">
 
 					<pre class="mermaid" id="mermaid-diagram">
-						graph LR
-						A --- B
-						B-->C[fa:fa-ban forbidden]
-						B-->D(fa:fa-spinner);
+						graph TD
+						A[Terraform Configuration] --> B[Variables]
+						A --> C[Resources]
+						A --> D[Outputs]
+						A --> E[Modules]
+
+						B --> C
+						E --> C
+
+						C --> D
 					</pre>
 
 				</div>
@@ -63,10 +72,16 @@
 
 	<script>
 		document.getElementById('mermaid-input').value =
-			`graph LR
-  			A --- B
-			B-->C[fa:fa-ban forbidden]
-			B-->D(fa:fa-spinner);`;
+			`graph TD
+			    A[Terraform Configuration] --> B[Variables]
+			    A --> C[Resources]
+			    A --> D[Outputs]
+			    A --> E[Modules]
+			
+			    B --> C
+			    E --> C
+			
+			    C --> D`;
 
 		document.addEventListener('DOMContentLoaded', function () {
 			const textarea = document.getElementById('mermaid-input');
