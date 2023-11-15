@@ -58,7 +58,7 @@ func makeOpenAIRequest(mermaidDiagram string, apiKey string) (string, error) {
 	requestMessage := fmt.Sprintf("Analyze the provided Mermaid diagram to identify all resources, their types, attributes, and interconnections. Translate these details into a Terraform configuration using HCL syntax. Structure the Terraform configuration accurately to reflect the architecture shown in the diagram, considering resource dependencies and relationships. The response should be formatted as an HTML code block. Wrap the Terraform configuration in <pre> and <code> HTML tags to ensure proper formatting and readability when embedded in a web application. Ensure the syntax is valid and adheres to Terraform's best practices. %s", mermaidDiagram)
 
 	requestBody, err := json.Marshal(map[string]interface{}{
-		"model": "gpt-3.5-turbo",
+		"model": "gpt-4",
 		"messages": []map[string]string{
 			{"role": "user", "content": requestMessage},
 		},
