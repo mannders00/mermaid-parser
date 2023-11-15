@@ -16,18 +16,76 @@
 
 		<div class="container p-4">
 
-			<button class="btn btn-primary"> Hello </button>
+			<div class="row">
 
-		</div>
 
-		<footer class="py-3 my-4">
-			<p class="text-center text-muted">© 2023 </p>
-		</footer>
+
+				<div
+					class="col-sm m-2 p-2 shadow-lg border rounded bg-body align-content-center justify-content-center">
+					<form hx-post="/submit" hx-target="#result">
+						<textarea class="w-100 h-100" id="mermaid-input" name="mermaid-input" style="min-height: 10rem">
+						</textarea>
+						<button type="submit" class="btn btn-outline-primary"> Submit </button>
+					</form>
+				</div>
+				<div
+					class="col-sm m-2 p-2 shadow-lg border rounded bg-body align-content-center justify-content-center">
+
+					<pre class="mermaid" id="mermaid-diagram">
+						graph LR
+						A --- B
+						B-->C[fa:fa-ban forbidden]
+						B-->D(fa:fa-spinner);
+					</pre>
+
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div
+					class="col-sm m-2 p-2 shadow-lg border rounded bg-body align-content-center justify-content-center">
+					<div id="result">
+
+					</div>
+				</div>
+			</div>
+
+			<footer class="py-3 my-4">
+				<p class="text-center text-muted">© 2023 </p>
+			</footer>
 	</main>
 
 	<script src="/public/js/darkmode.js" crossorigin="anonymous"></script>
 	<script src="/public/js/bootstrap.bundle.js" crossorigin="anonymous"></script>
-	<script src="/public/js/htmx.js" crossorigin="anonymous"></script>
+	<script src="/public/js/htmx.min.js" crossorigin="anonymous"></script>
+	<script src="/public/js/mermaid.min.js" crossorigin="anonymous"></script>
+
+	<script>
+		document.getElementById('mermaid-input').value =
+			`graph LR
+  			A --- B
+			B-->C[fa:fa-ban forbidden]
+			B-->D(fa:fa-spinner);`;
+
+		document.addEventListener('DOMContentLoaded', function () {
+			const textarea = document.getElementById('mermaid-input');
+			const mermaidDiagram = document.getElementById('mermaid-diagram');
+
+			function updateDiagram() {
+				mermaidDiagram.textContent = textarea.value;
+				mermaidDiagram.removeAttribute('data-processed');
+				mermaid.init(undefined, mermaidDiagram);
+			}
+
+			let debounceTimeout;
+			textarea.addEventListener('input', function () {
+				clearTimeout(debounceTimeout);
+				debounceTimeout = setTimeout(updateDiagram, 200); // Adjust debounce time as needed
+			});
+		});
+	</script>
+
 
 </body>
 

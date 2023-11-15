@@ -16,6 +16,14 @@ func main() {
 
 	http.HandleFunc("/", indexHandler)
 
+	http.HandleFunc("/submit", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			r.ParseForm()
+			mermaidDiagram := r.FormValue("mermaid-input")
+			fmt.Fprintf(w, "Received %s", mermaidDiagram)
+		}
+	})
+
 	fmt.Printf("listening on %s", port)
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
