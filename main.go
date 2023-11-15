@@ -13,9 +13,6 @@ import (
 func main() {
 
 	openAIKey := os.Getenv("OPENAI_API_KEY")
-	if openAIKey == "" {
-		log.Fatal("OPENAI_API_KEY not set")
-	}
 
 	port := ":8080"
 
